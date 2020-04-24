@@ -5,4 +5,5 @@
 !lib/*.py
 !regions
 !regions/*.py
-!theo_syst.py
+!main.py
+!config.yaml

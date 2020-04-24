@@ -1,0 +1,18 @@
+
+
+# draw : ['all_weights', 'reg_weights', 'nevents', 'ph_pt', 'ph_eta', 'met_et', 'dphi_jetmet', 'ht']
+draw : ['nevents']
+
+# eosPath : '/eos/user/f/falonso/data/mini2/'
+eosPath : '/eos/user/g/goorella/data/mini2/'
+# version : 'v102_0'
+version : 'v102_0_theosyst'
+checkZeroCounts : False
+doSystToolPlots : False
+
+
+### for plot only ###
+
+plot_samples : ['photonjet', 'wgamma', 'ttgamma', 'znunugamma', 'zllgamma', 'vgammagamma', 'diphoton']
+plot_years : ['fullR2', '20152016', '2017', '2018']
+eosPathPlot : '/eos/user/g/goorella/plots/theo_syst/'
