@@ -1,10 +1,26 @@
-(Under construciton)
-
-
 Theoretical systematics
 =========================
 
-## Theoretical systematics
+Tool to obtain theoretical systematics for different regions
+
+## Creating input for the tool
+
+Creating rooftiles with 1D histograms for each region and systematic variation, also distributions. e.g.:
+    
+    python main.py --createHists --sample photonjet_nnlo --year 20152016 --outputFile output/syst_v102_0_1/syst_photonjet_20152016.root --regions regions/regions_theo_v1.py
+
+## Running the systematics-tools
+
+To run the systematics-tools (use only SCL6)
+
+	python main.py --computeSyst --inputSystFile output/syst_v102_0_1/syst_photonjet_20152016.root --outputDir output/syst_v102_0_1/syst_photonjet_20152016 --config output/syst_v102_0_1/syst_photonjet_20152016_config.yaml
+
+
+## Plots
+
+	python main.py --plots --inputDir output/syst_v102_0_1/ --tag syst_v102_0_1
+
+## Setting up the tool
 
 ONLY USE SCL6!
 Setup for the first time (in any directory you want):
@@ -29,19 +45,3 @@ Also you just can simply run (recomended):
 	export PYTHONPATH=$PYTHONPATH:$PWD/local/bin/
 	export SYSTTOOLSPATH=$PWD
 
-
-Creating rooftiles with 1D histograms for each region and systematic variation, also distributions. e.g.:
-    
-    python theo_syst.py --sample zllgamma --year 20152016 --regions regions/regions.py --outputfile output/syst_test/syst_zllgamma_20152016.root
-
-For one slice/did:
-
-    python theo_syst.py --sample zllgamma --year 20152016 --regions regions/regions.py --outputfile output/syst_test/syst_zllgamma_364504_20152016.root --did 364504
-    
-To run the systematics tool with that output (use scl6 only here):
-
-	python theo_syst.py --systematics --inputfile output/syst_test/syst_zllgamma_20152016.root --outputdir output/syst_test/syst_zllgamma_20152016 2>&1 | tee output/syst_test/syst_zllgamma_20152016.out
-
-Plotting previous output and table of content:
-
-	python theo_syst.py --plot_theo_syst --inputdir output/syst_test --tag plots_19_09_24

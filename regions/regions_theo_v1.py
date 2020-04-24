@@ -17,5 +17,7 @@ regions = {
 ## lepton VR: Wgamma/ttbarg
 	'VRL' : 'pass_g140==1 && ph_n>0 && el_n+mu_n>0 && ph_pt[0]>145 && jet_n>1 && met_et>100 && ht>800',
 
+## efakes VR:
+	'VRE' : 'pass_g140==1 && ph_n>=1 && ph_pt[0]>145 && jet_n>=1 && bjet_n>=1 && dphi_jetmet>0.4 && met_et>200 && ht>100 && ht<1600',
 
 }
