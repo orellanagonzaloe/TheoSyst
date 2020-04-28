@@ -41,7 +41,20 @@ Also you just can simply run (recomended):
 	source ${LCG_RELEASE_BASE}/LCG_88/MCGenerators/rivet/${RIVETVER}/${LCG_PLATFORM}/rivetenv.sh
 	export RIVET_ANALYSIS_PATH=$RIVET_ANALYSIS_PATH:${LCG_RELEASE_BASE}/LCG_88/MCGenerators/rivet/${RIVETVER}/${LCG_PLATFORM}/share/Rivet
 	source data/setupLHAPDF.sh
-	export PATH=$PATH:$PWD/local/bin/:/afs/cern.ch/sw/XML/TL2016/bin/x86_64-linux
-	export PYTHONPATH=$PYTHONPATH:$PWD/local/bin/
 	export SYSTTOOLSPATH=$PWD
+	export PATH=$PATH:$PWD/local/bin/:/afs/cern.ch/sw/XML/TL2016/bin/x86_64-linux
+	export PATH=$PWD/local/bin:$PATH
+	export PYTHONPATH=$PYTHONPATH:$PWD/local/bin/
+	if [ -e /usr/lib64/atlas/libsatlas.so ]; then
+	   workaroundLib="`pwd`/extraLibs"
+	   if [ ! -e $workaroundLib ]; then
+	     mkdir -p $workaroundLib
+	     ln -s /usr/lib64/atlas/libsatlas.so $workaroundLib/libptf77blas.so.3
+	     ln -s /usr/lib64/atlas/libsatlas.so $workaroundLib/libptcblas.so.3
+	     ln -s /usr/lib64/atlas/libsatlas.so $workaroundLib/libatlas.so.3
+	     ln -s /usr/lib64/atlas/libsatlas.so $workaroundLib/liblapack.so.3 
+	   # do the same for any other atlas lib that is missing and needed
+	   fi
+	   export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$workaroundLib"
+	fi
 
