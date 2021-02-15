@@ -22,7 +22,7 @@ To run the systematics-tools (use only SCL6)
 
 ## Setting up the tool
 
-ONLY USE SCL6!
+~~ONLY USE SCL6!~~ Should work in centos7 now
 Setup for the first time (in any directory you want):
 
 	git clone ssh://git@gitlab.cern.ch:7999/atlas-physics/pmg/tools/systematics-tools.git
