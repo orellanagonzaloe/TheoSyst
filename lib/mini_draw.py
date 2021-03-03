@@ -68,7 +68,6 @@ def initLoop(cfg, regions):
 		h_syst[w]['all_weights'] = TH1D( hname_syst, hname_syst, 300, -150., 150.)
 		h_syst[w]['all_weights'].Sumw2()
 		
-
 		for r in regions:
 
 			hname_syst = 'Syst_%s_%s_weights' % (safeWeightName(w), r)
@@ -82,35 +81,13 @@ def initLoop(cfg, regions):
 			h_syst[w][r+'_nevents'] = TH1D( hname_syst, hname_syst, 1, 0., 1.)
 			h_syst[w][r+'_nevents'].Sumw2()
 
+			for var in cfg['varSyst']:
 
-			hname_syst = 'Syst_%s_%s_ph_pt' % (safeWeightName(w), r)
+				hname_syst = 'Syst_%s_%s_%s' % (safeWeightName(w), r, clean_var(var))
 
-			h_syst[w][r+'_ph_pt'] = TH1D( hname_syst, hname_syst, 14, 145., 1545.)
-			h_syst[w][r+'_ph_pt'].Sumw2()
+				h_syst[w]['%s_%s' % (r, var)] = TH1D(hname_syst, hname_syst, cfg['varSyst'][var][0], cfg['varSyst'][var][1], cfg['varSyst'][var][2])
+				h_syst[w]['%s_%s' % (r, var)].Sumw2()
 
-
-			hname_syst = 'Syst_%s_%s_ph_eta' % (safeWeightName(w), r)
-
-			h_syst[w][r+'_ph_eta'] = TH1D( hname_syst, hname_syst, 30, -3., 3.)
-			h_syst[w][r+'_ph_eta'].Sumw2()
-
-
-			hname_syst = 'Syst_%s_%s_met_et' % (safeWeightName(w), r)
-
-			h_syst[w][r+'_met_et'] = TH1D( hname_syst, hname_syst, 10, 0., 1000.)
-			h_syst[w][r+'_met_et'].Sumw2()
-
-
-			hname_syst = 'Syst_%s_%s_dphi_jetmet' % (safeWeightName(w), r)
-
-			h_syst[w][r+'_dphi_jetmet'] = TH1D( hname_syst, hname_syst, 17, 0., 3.4)
-			h_syst[w][r+'_dphi_jetmet'].Sumw2()
-
-
-			hname_syst = 'Syst_%s_%s_ht' % (safeWeightName(w), r)
-
-			h_syst[w][r+'_ht'] = TH1D( hname_syst, hname_syst, 30, 0., 6000.)
-			h_syst[w][r+'_ht'].Sumw2()
 
 	print weight_names
 
@@ -201,66 +178,50 @@ def loop(cfg, regions, h_syst, weight_names):
 
 			lumi_w = ( lumi_dict[cfg['year']] * xs ) / weight_mc[w][1]
 
-			# weights histogram
+			# all weights histogram
 
 			hname_syst = 'Syst_%s_weights' % safeWeightName(w)
-
 			varexp = 'weight_lhe3[%i]>>+%s' % (weight_mc[w][0], hname_syst)
 			selection = '%s' % str(lumi_w)
 
-			if 'all_weights' in cfg['draw']:
-				# chain.Draw(varexp, selection)
-				draw_list.append((hname_syst, 'weight_lhe3[%i]'%weight_mc[w][0], selection))
+			draw_list.append((hname_syst, 'weight_lhe3[%i]'%weight_mc[w][0], selection))
 
 			for r in regions:
 
 				# weights histogram in each region
 
 				hname_syst = 'Syst_%s_%s_weights' % (safeWeightName(w), r)
-
 				varexp = 'weight_lhe3[%i]>>+%s' % (weight_mc[w][0], hname_syst)
-
 				selection = '(%s)*(%s&&fabs(weight_lhe3[%i])<100)' % (str(lumi_w), regions[r], weight_mc[w][0])
 
-				if 'reg_weights' in cfg['draw']:
-					# chain.Draw(varexp, selection)
-					draw_list.append((hname_syst, 'weight_lhe3[%i]'%weight_mc[w][0], selection))
+				draw_list.append((hname_syst, 'weight_lhe3[%i]'%weight_mc[w][0], selection))
 
 				# Number of events in each region
 
 				hname_syst = 'Syst_%s_%s_nevents' % (safeWeightName(w), r)
-
 				varexp = '0.5>>+%s' % hname_syst
-
 				selection = '(%s*weight_lhe3[%i]*weight_sf*weight_pu)*(%s&&fabs(weight_lhe3[%i])<100)' % (str(lumi_w), weight_mc[w][0], regions[r], weight_mc[w][0])
 
-				if 'nevents' in cfg['draw']:
-					# chain.Draw(varexp, selection)
-					draw_list.append((hname_syst, str(0.5), selection))
+				draw_list.append((hname_syst, str(0.5), selection))
 
 				# distributions in each region
 
-				for d in ['ph_pt[0]', 'ph_eta[0]', 'met_et', 'dphi_jetmet', 'ht']:
+				for var in cfg['varSyst']:
 
-					hname_syst = 'Syst_%s_%s_%s' % (safeWeightName(w), r, d.replace('[0]',''))
-
-					varexp = '%s>>+%s' % (d, hname_syst)
-
-					clean_cond = [cond.replace(' ','') for cond in regions[r].split('&&') if not d in cond]
+					hname_syst = 'Syst_%s_%s_%s' % (safeWeightName(w), r, clean_var(var))
+					varexp = '%s>>+%s' % (var, hname_syst)
+					clean_cond = [cond.replace(' ','') for cond in regions[r].split('&&') if not var in cond]
 					cond = '&&'.join(clean_cond)
-
 					selection = '(%s*weight_lhe3[%i]*weight_sf*weight_pu)*(%s&&fabs(weight_lhe3[%i])<100)' % ( str(lumi_w), weight_mc[w][0], cond, weight_mc[w][0])
 
-					if d.replace('[0]','') in cfg['draw']:
-						# chain.Draw(varexp,selection)
-						draw_list.append((hname_syst, d, selection))
+					draw_list.append((hname_syst, var, selection))
 
 
 		chain.MultiDraw(*draw_list)
 
 
 
-	if cfg['checkZeroCounts'] and 'nevents' in cfg['draw']:
+	if cfg['checkZeroCounts']:
 
 		for w in weight_names:
 			for r in regions:
@@ -289,30 +250,20 @@ def output_file(cfg, regions, weight_names, h_syst):
 		output.cd(safeWeightName(w))
 
 		hname_syst = 'Syst_%s_weights' % safeWeightName(w)
-		h_syst[w]['all_weights'].Write( hname_syst )
+		h_syst[w]['all_weights'].Write(hname_syst)
 
 		for r in sorted(regions):
 
 			hname_syst = 'Syst_%s_%s_weights' % (safeWeightName(w), r)
-			h_syst[w][r+'_weights'].Write( hname_syst )
+			h_syst[w][r+'_weights'].Write(hname_syst)
 
 			hname_syst = 'Syst_%s_%s_nevents' % (safeWeightName(w), r)
-			h_syst[w][r+'_nevents'].Write( hname_syst )
+			h_syst[w][r+'_nevents'].Write(hname_syst)
 
-			hname_syst = 'Syst_%s_%s_ph_pt' % (safeWeightName(w), r)
-			h_syst[w][r+'_ph_pt'].Write( hname_syst )
+			for var in cfg['varSyst']:
 
-			hname_syst = 'Syst_%s_%s_ph_eta' % (safeWeightName(w), r)
-			h_syst[w][r+'_ph_eta'].Write( hname_syst )
-
-			hname_syst = 'Syst_%s_%s_met_et' % (safeWeightName(w), r)
-			h_syst[w][r+'_met_et'].Write( hname_syst )
-
-			hname_syst = 'Syst_%s_%s_dphi_jetmet' % (safeWeightName(w), r)
-			h_syst[w][r+'_dphi_jetmet'].Write( hname_syst )
-
-			hname_syst = 'Syst_%s_%s_ht' % (safeWeightName(w), r)
-			h_syst[w][r+'_ht'].Write( hname_syst )
+				hname_syst = 'Syst_%s_%s_%s' % (safeWeightName(w), r, clean_var(var))
+				h_syst[w]['%s_%s' % (r, var)].Write(hname_syst)
 
 		output.cd()
 
@@ -331,14 +282,33 @@ def output_file(cfg, regions, weight_names, h_syst):
 
 def safeWeightName(weight):
 
-	if weight.startswith(' '):
-		weight = weight[1:]
-	if weight.endswith(' '):
-		weight = weight[:-1]
-
-	weight = weight.replace(' ','_')
 	weight = weight.replace('+','')
-	for decimalPoint in re.findall('[0-9].[0-9]',weight):
-		weight=weight.replace(decimalPoint,decimalPoint.replace('.','p'))
+	weight = weight.replace(' nominal ','')
+	weight = weight.replace(' set = ','_')
+	weight = weight.replace(' = ','_')
+	weight = weight.replace('=','')
+	weight = weight.replace(',','')
+	weight = weight.replace('.','')
+	weight = weight.replace(':','')
+	weight = weight.replace(' ','_')
+	weight = weight.replace('#','num')
+	weight = weight.replace('\n','_')
+	weight = weight.replace('/','over')
+	
+	# they changed again safe naming convention :/
+
+	# if weight.startswith(' '):
+	# 	weight = weight[1:]
+	# if weight.endswith(' '):
+	# 	weight = weight[:-1]
+
+	# weight = weight.replace(' ','_')
+	# weight = weight.replace('+','')
+
+	# for decimalPoint in re.findall('[0-9].[0-9]',weight):
+	# 	weight=weight.replace(decimalPoint,decimalPoint.replace('.','p'))
 
 	return weight
+
+def clean_var(var):
+	return var.replace(':', '_').replace('[','').replace(']', '').replace('(', '').replace(')','').replace('/','')

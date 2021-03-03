@@ -101,11 +101,14 @@ if plots:
 
 	import lib.plots as plt
 
-	plt.setup_output(cfg)
-	plt.plots_tmp(cfg)
+	allInfo = plt.setupPlot(cfg)
+	plt.plotDiagrams(cfg, allInfo)
+	plt.latexTables(cfg, allInfo)
+	plt.HFinput(cfg, allInfo)
 
-	# plt.theo_syst_plots(inputdir, args.tag, reg)
-	# plt.theo_syst_plots2(inputdir, args.tag, reg)
+	# plt.setup_output(cfg)
+	# plt.plots_tmp(cfg)
+
 
 elif computeSyst:
 

@@ -461,76 +461,7 @@ samples_dict = {
         'data17_13TeV.00340453.physics_Main',
         ],
 
-    'photonjet': [
-        # 'mc16_13TeV.361039.Sherpa_CT10_SinglePhotonPt35_70_CVetoBVeto',
-        # 'mc16_13TeV.361040.Sherpa_CT10_SinglePhotonPt35_70_CFilterBVeto',
-        # 'mc16_13TeV.361041.Sherpa_CT10_SinglePhotonPt35_70_BFilter',
-        'mc16_13TeV.361042.Sherpa_CT10_SinglePhotonPt70_140_CVetoBVeto',
-        'mc16_13TeV.361043.Sherpa_CT10_SinglePhotonPt70_140_CFilterBVeto',
-        'mc16_13TeV.361044.Sherpa_CT10_SinglePhotonPt70_140_BFilter',
-        'mc16_13TeV.361045.Sherpa_CT10_SinglePhotonPt140_280_CVetoBVeto',
-        'mc16_13TeV.361046.Sherpa_CT10_SinglePhotonPt140_280_CFilterBVeto',
-        'mc16_13TeV.361047.Sherpa_CT10_SinglePhotonPt140_280_BFilter',
-        'mc16_13TeV.361048.Sherpa_CT10_SinglePhotonPt280_500_CVetoBVeto',
-        'mc16_13TeV.361049.Sherpa_CT10_SinglePhotonPt280_500_CFilterBVeto',
-        'mc16_13TeV.361050.Sherpa_CT10_SinglePhotonPt280_500_BFilter',
-        'mc16_13TeV.361051.Sherpa_CT10_SinglePhotonPt500_1000_CVetoBVeto',
-        'mc16_13TeV.361052.Sherpa_CT10_SinglePhotonPt500_1000_CFilterBVeto',
-        'mc16_13TeV.361053.Sherpa_CT10_SinglePhotonPt500_1000_BFilter',
-        'mc16_13TeV.361054.Sherpa_CT10_SinglePhotonPt1000_2000_CVetoBVeto',
-        'mc16_13TeV.361055.Sherpa_CT10_SinglePhotonPt1000_2000_CFilterBVeto',
-        'mc16_13TeV.361056.Sherpa_CT10_SinglePhotonPt1000_2000_BFilter',
-        'mc16_13TeV.361057.Sherpa_CT10_SinglePhotonPt2000_4000_CVetoBVeto',
-        'mc16_13TeV.361058.Sherpa_CT10_SinglePhotonPt2000_4000_CFilterBVeto',
-        'mc16_13TeV.361059.Sherpa_CT10_SinglePhotonPt2000_4000_BFilter',
-        # 'mc16_13TeV.361060.Sherpa_CT10_SinglePhotonPt4000_CVetoBVeto',
-        # 'mc16_13TeV.361061.Sherpa_CT10_SinglePhotonPt4000_CFilterBVeto',
-        # 'mc16_13TeV.361062.Sherpa_CT10_SinglePhotonPt4000_BFilter',
-        ],
-
-    'photonjet_70_140': [
-        'mc16_13TeV.361042.Sherpa_CT10_SinglePhotonPt70_140_CVetoBVeto',
-        'mc16_13TeV.361043.Sherpa_CT10_SinglePhotonPt70_140_CFilterBVeto',
-        'mc16_13TeV.361044.Sherpa_CT10_SinglePhotonPt70_140_BFilter',
-        ],
-
-    'photonjet_140_280': [
-        'mc16_13TeV.361045.Sherpa_CT10_SinglePhotonPt140_280_CVetoBVeto',
-        'mc16_13TeV.361046.Sherpa_CT10_SinglePhotonPt140_280_CFilterBVeto',
-        'mc16_13TeV.361047.Sherpa_CT10_SinglePhotonPt140_280_BFilter',
-        ],
-
-    'photonjet_280_500': [
-        'mc16_13TeV.361048.Sherpa_CT10_SinglePhotonPt280_500_CVetoBVeto',
-        'mc16_13TeV.361049.Sherpa_CT10_SinglePhotonPt280_500_CFilterBVeto',
-        'mc16_13TeV.361050.Sherpa_CT10_SinglePhotonPt280_500_BFilter',
-        ],
-
-    'photonjet_500_1000': [
-        'mc16_13TeV.361051.Sherpa_CT10_SinglePhotonPt500_1000_CVetoBVeto',
-        'mc16_13TeV.361052.Sherpa_CT10_SinglePhotonPt500_1000_CFilterBVeto',
-        'mc16_13TeV.361053.Sherpa_CT10_SinglePhotonPt500_1000_BFilter',
-        ],
-
-    'photonjet_1000_2000': [
-        'mc16_13TeV.361054.Sherpa_CT10_SinglePhotonPt1000_2000_CVetoBVeto',
-        'mc16_13TeV.361055.Sherpa_CT10_SinglePhotonPt1000_2000_CFilterBVeto',
-        'mc16_13TeV.361056.Sherpa_CT10_SinglePhotonPt1000_2000_BFilter',
-        ],
-
-    'photonjet_2000_4000': [
-        'mc16_13TeV.361057.Sherpa_CT10_SinglePhotonPt2000_4000_CVetoBVeto',
-        'mc16_13TeV.361058.Sherpa_CT10_SinglePhotonPt2000_4000_CFilterBVeto',
-        'mc16_13TeV.361059.Sherpa_CT10_SinglePhotonPt2000_4000_BFilter',
-        ],
-
-    'photonjet_4000': [
-        'mc16_13TeV.361060.Sherpa_CT10_SinglePhotonPt4000_CVetoBVeto',
-        'mc16_13TeV.361061.Sherpa_CT10_SinglePhotonPt4000_CFilterBVeto',
-        'mc16_13TeV.361062.Sherpa_CT10_SinglePhotonPt4000_BFilter',
-        ],
-
-    'photonjet_nnlo':
+    'photonjet':
         [
          # 'mc16_13TeV.364543.Sherpa_222_NNPDF30NNLO_SinglePhoton_pty_70_140',
          'mc16_13TeV.364544.Sherpa_222_NNPDF30NNLO_SinglePhoton_pty_140_280',

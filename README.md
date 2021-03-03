@@ -11,18 +11,18 @@ Creating rooftiles with 1D histograms for each region and systematic variation, 
 
 ## Running the systematics-tools
 
-To run the systematics-tools (use only SCL6)
+To run the systematics-tools (setup the tool first)
 
 	python main.py --computeSyst --inputSystFile output/syst_v102_0_1/syst_photonjet_20152016.root --outputDir output/syst_v102_0_1/syst_photonjet_20152016 --config output/syst_v102_0_1/syst_photonjet_20152016_config.yaml
 
+If you edit in the corresponding config file the variable 'doSystToolPlots', it also creates the distribution plots by regions and background
 
-## Plots
+## Plots syst by reg + latext table + HF config
 
 	python main.py --plots --inputDir output/syst_v102_0_1/ --tag syst_v102_0_1
 
 ## Setting up the tool
 
-~~ONLY USE SCL6!~~ Should work in centos7 now
 Setup for the first time (in any directory you want):
 
 	git clone ssh://git@gitlab.cern.ch:7999/atlas-physics/pmg/tools/systematics-tools.git
@@ -57,4 +57,11 @@ Also you just can simply run (recomended):
 	   fi
 	   export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$workaroundLib"
 	fi
+
+
+Update the 'data/Syst_Database.yaml', copyig the one in 'lib' directory:
+	added ttgamma recipe
+	combination must not include nominal (stat)
+	added components of NP for HF
+
 

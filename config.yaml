@@ -1,7 +1,13 @@
 
 
-# draw : ['all_weights', 'reg_weights', 'nevents', 'ph_pt', 'ph_eta', 'met_et', 'dphi_jetmet', 'ht']
-draw : ['nevents']
+varSyst:
+    ph_pt[0]: [14, 145., 1545.]
+    ph_eta[0]: [30, -3., 3.]
+    met_et: [10, 0., 1000.]
+    dphi_jetmet: [17, 0., 3.4]
+    ht: [30, 0., 6000.]
+    jet_n: [14, 0, 14]
+
 
 # eosPath : '/eos/user/f/falonso/data/mini2/'
 eosPath : '/eos/user/g/goorella/data/mini2/'
@@ -10,9 +16,15 @@ version : 'v102_0_theosyst'
 checkZeroCounts : False
 doSystToolPlots : False
 
-
 ### for plot only ###
 
 plot_samples : ['photonjet', 'wgamma', 'ttgamma', 'znunugamma', 'zllgamma', 'vgammagamma', 'diphoton']
 plot_years : ['fullR2', '20152016', '2017', '2018']
+# plot_samples : ['photonjet', 'ttgamma']
+# plot_years : ['2018']
 eosPathPlot : '/eos/user/g/goorella/plots/theo_syst/'
+
+# order the appearence of the variations
+# varOrder = ['Nominal', 'PDF_ME', 'alphaS', 'scale_ME_NP_muR', 'scale_ME_NP_muF', 'scale_ME_NP_muRmuF', 'altPDF', 'Total'] # Nominal first. Total must go last and altPDFs (if included) anteultimate
+
+varOrder : ['Nominal', 'scale_ME_NP_muR', 'scale_ME_NP_muF', 'scale_ME_NP_muRmuF', 'NP_PDFalpha', 'NP_PDFalpha2'] # Nominal first. Total must go last and altPDFs (if included) anteultimate. Include PDFalpha2 for ttgamma.
