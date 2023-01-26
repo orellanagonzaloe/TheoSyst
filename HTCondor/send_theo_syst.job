@@ -1,0 +1,36 @@
+executable            = run_theo_syst.sh
+
+output                = log/job_theo_syst_$(sample)_$(ClusterId)_$(ProcId).out
+error                 = log/job_theo_syst_$(sample)_$(ClusterId)_$(ProcId).err
+log                   = log/job_theo_syst_$(sample)_$(ClusterId)_$(ProcId).log
+
+# Without transfer files
+# should_transfer_files = NO
+
+# With transfer files
+transfer_input_files = ../main.py, ../config.yaml, ../lib, ../regions
+should_transfer_files = YES
+when_to_transfer_output = ON_EXIT
+transfer_output_files = ""
+
++MaxRuntime = 300000
+# +MaxRuntime = 10000
+# +JobFlavour = "testmatch"
+
+outputDir = /eos/user/g/goorella/plots/theo_syst/theo_syst_v210_EWK_$(sample)
+
+arguments = $(sample) $(outputDir)
+
+queue sample from (
+	# ttgamma
+	# tth
+	wgamma
+	# zeegamma
+	# zmumugamma
+	# znunugamma
+	# ztautaugamma
+	# zgammagamma
+	# wgammagamma
+	# photonjet
+	# diphoton
+)

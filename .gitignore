@@ -1,9 +1,5 @@
-*
-!.gitignore
-!README.md
-!lib
-!lib/*.py
-!regions
-!regions/*.py
-!main.py
-!config.yaml
+.asetup.save 
+*/*.pyc
+HTCondor/log/*
+output/*
+*.sh

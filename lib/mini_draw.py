@@ -12,7 +12,7 @@ import ROOT
 ROOT.gROOT.SetBatch(True)
 from ROOT import *
 
-import lib.samples as sam
+import lib.samples_EWK as sam
 import lib.xsutils as xsu
 import lib.multidraw as mtd
 
@@ -35,7 +35,7 @@ tag_dict = {
 
 def initLoop(cfg, regions): 
 
-	ref_file_tmp = glob.glob(cfg['eosPath'] + cfg['version'] + '/' + sam.samples_dict[cfg['sample']][0] + cfg['sampleType'] + tag_dict[cfg['year']] + '*root/*root*')[0]
+	ref_file_tmp = glob.glob(cfg['eosPath'] + cfg['version'] + '/' + sam.samples_dict[cfg['sample']][0] + cfg['sampleType'] + tag_dict[cfg['year']] + '*/*root*')[0]
 
 	if cfg['inputFile'] is not None:
 
@@ -107,7 +107,7 @@ def loop(cfg, regions, h_syst, weight_names):
 
 		if cfg['did'] is not None and cfg['did'] not in s: continue
 
-		all_files = glob.glob(cfg['eosPath'] + cfg['version'] + '/' + s + cfg['sampleType'] + tag_dict[cfg['year']] + '*root/*root*')
+		all_files = glob.glob(cfg['eosPath'] + cfg['version'] + '/' + s + cfg['sampleType'] + tag_dict[cfg['year']] + '*/*root*')
 
 		if cfg['inputFile'] is not None:
 			all_files = [s]
@@ -181,7 +181,6 @@ def loop(cfg, regions, h_syst, weight_names):
 			# all weights histogram
 
 			hname_syst = 'Syst_%s_weights' % safeWeightName(w)
-			varexp = 'weight_lhe3[%i]>>+%s' % (weight_mc[w][0], hname_syst)
 			selection = '%s' % str(lumi_w)
 
 			draw_list.append((hname_syst, 'weight_lhe3[%i]'%weight_mc[w][0], selection))
@@ -191,7 +190,6 @@ def loop(cfg, regions, h_syst, weight_names):
 				# weights histogram in each region
 
 				hname_syst = 'Syst_%s_%s_weights' % (safeWeightName(w), r)
-				varexp = 'weight_lhe3[%i]>>+%s' % (weight_mc[w][0], hname_syst)
 				selection = '(%s)*(%s&&fabs(weight_lhe3[%i])<100)' % (str(lumi_w), regions[r], weight_mc[w][0])
 
 				draw_list.append((hname_syst, 'weight_lhe3[%i]'%weight_mc[w][0], selection))
@@ -199,7 +197,6 @@ def loop(cfg, regions, h_syst, weight_names):
 				# Number of events in each region
 
 				hname_syst = 'Syst_%s_%s_nevents' % (safeWeightName(w), r)
-				varexp = '0.5>>+%s' % hname_syst
 				selection = '(%s*weight_lhe3[%i]*weight_sf*weight_pu)*(%s&&fabs(weight_lhe3[%i])<100)' % (str(lumi_w), weight_mc[w][0], regions[r], weight_mc[w][0])
 
 				draw_list.append((hname_syst, str(0.5), selection))
@@ -209,7 +206,6 @@ def loop(cfg, regions, h_syst, weight_names):
 				for var in cfg['varSyst']:
 
 					hname_syst = 'Syst_%s_%s_%s' % (safeWeightName(w), r, clean_var(var))
-					varexp = '%s>>+%s' % (var, hname_syst)
 					clean_cond = [cond.replace(' ','') for cond in regions[r].split('&&') if not var in cond]
 					cond = '&&'.join(clean_cond)
 					selection = '(%s*weight_lhe3[%i]*weight_sf*weight_pu)*(%s&&fabs(weight_lhe3[%i])<100)' % ( str(lumi_w), weight_mc[w][0], cond, weight_mc[w][0])

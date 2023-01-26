@@ -5,14 +5,11 @@ varSyst:
     ph_eta[0]: [30, -3., 3.]
     met_et: [10, 0., 1000.]
     dphi_jetmet: [17, 0., 3.4]
-    ht: [30, 0., 6000.]
     jet_n: [14, 0, 14]
 
 
-# eosPath : '/eos/user/f/falonso/data/mini2/'
 eosPath : '/eos/user/g/goorella/data/mini2/'
-# version : 'v102_0'
-version : 'v102_0_theosyst'
+version : 'v210_0_TheoSyst'
 checkZeroCounts : False
 doSystToolPlots : False
 
