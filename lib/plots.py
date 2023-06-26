@@ -17,11 +17,17 @@ from ROOT import *
 samLatex = {
 	'photonjet'      : '#gamma + jets',
 	'ttgamma'        : 't#bar{t}#gamma',
+	'tth'            : 't#bar{t}H',
 	'wgamma'         : 'W#gamma',
 	'zllgamma'       : 'Z(ll)#gamma',
 	'znunugamma'     : 'Z(#nu#nu)#gamma',
 	'vgammagamma'    : 'W#gamma#gamma/Z#gamma#gamma',
 	'diphoton'       : '#gamma#gamma',
+	'wgammagamma'    : 'W#gamma#gamma',
+	'zgammagamma'    : 'Z#gamma#gamma',
+	'zeegamma'       : 'Z(ee)#gamma',
+	'zmumugamma'     : 'Z(#mu#mu)#gamma',
+	'ztautaugamma'   : 'Z(#tau#tau)#gamma',
 }
 
 
@@ -52,13 +58,13 @@ def setupPlot(cfg):
 
 	for sam in cfg['plot_samples']:
 
-		# print sam
+		# print(sam)
 
 		allInfo[sam] = {}
 
 		for yr in cfg['plot_years']:
 
-			# print yr
+			# print(yr)
 
 			allInfo[sam][yr] = {}
 
@@ -105,7 +111,7 @@ def setupPlot(cfg):
 
 			for reg in regions:
 
-				# print reg
+				# print(reg)
 
 				allInfo[sam][yr][reg] = {}
 
@@ -167,15 +173,15 @@ def plotDiagrams(cfg, allInfo):
 
 	for sam in cfg['plot_samples']:
 
-		# print sam
+		# print(sam)
 
 		for yr in cfg['plot_years']:
 
-			# print yr
+			# print(yr)
 
 			for reg in regions:
 
-				# print reg
+				# print(reg)
 
 				xVals, yVals, xErr, yDn, yUp = allInfo[sam][yr][reg]['tgae']
 
@@ -241,7 +247,7 @@ def plotDiagrams(cfg, allInfo):
 					tmpH1Up.GetXaxis().SetBinLabel(i+1,'')
 
 				tmpH1Up.SetLineColor(ROOT.kWhite)
-				tmpH1Up.SetTitle('%s_%s_%s' % (reg, sam, yr))
+				tmpH1Up.SetTitle('%s_%s_%s' % (_reg, sam, yr))
 				tmpH1Up.GetYaxis().SetTitle( '# events' )
 				
 				maxErr = max(max(yUp), max(yDn))  
@@ -384,12 +390,14 @@ def plotDiagrams(cfg, allInfo):
 				yRangeDn = minErr - 0.15 * max(abs(maxErr), abs(minErr))
 				yRangeUp = maxErr + 0.15 * max(abs(maxErr), abs(minErr))
 
+				tmpH1Dn.GetXaxis().SetTitleOffset(1.1)
+
 				tmpH1Dn.GetYaxis().SetRangeUser(yRangeDn, yRangeUp)
 				tmpH1Dn.GetXaxis().SetLabelSize(0.10)
 				tmpH1Dn.GetYaxis().SetLabelSize(0.10)
-				tmpH1Dn.GetYaxis().SetTitle( '% error' )
+				tmpH1Dn.GetYaxis().SetTitle('% error')
 				tmpH1Dn.GetYaxis().SetTitleSize(0.1)
-				tmpH1Dn.GetYaxis().SetTitleOffset(0.5)
+				tmpH1Dn.GetYaxis().SetTitleOffset(0.3)
 
 
 				line2 = TLine()
@@ -412,7 +420,7 @@ def plotDiagrams(cfg, allInfo):
 				can.Print('%s/syst_%s_%s_%s.pdf' % (outputDir, reg, sam, yr))
 				can.Close()
 
-	print '\nMerging pdf files in %s/all.pdf' % (outputDir)
+	print('\nMerging pdf files in %s/all.pdf' % (outputDir))
 
 	if os.path.isfile('%s/all.pdf' % outputDir):
 		os.remove('%s/all.pdf' % outputDir)
@@ -421,16 +429,19 @@ def plotDiagrams(cfg, allInfo):
 	process = subprocess.Popen(bashCommand, stdout=subprocess.PIPE, shell=True)
 	output, error = process.communicate()
 
-	print 'Done\n'
+	print('Done\n')
 
 
 def latexTables(cfg, allInfo):
 
 	regions = imp.load_source('', cfg['inputDir']+'regions.py').regions
 
+	regions_order = ['SR1','SR2','SR3','CRT','CRW','CRZ','VRW','VRT','VRE','VRZ']
+	# regions_order = ['SRloose','CRT','CRW','CRZ','VRWloose','VRTloose','VREloose','VRZloose']
+
 	outputFile = '%s/%s/syst_table.tex' % (cfg['eosPathPlot'], cfg['tag'])
 
-	print 'Latex table: %s' % outputFile
+	print('Latex table: %s' % outputFile)
 
 	tableOutput = open(outputFile, 'w')
 
@@ -446,13 +457,12 @@ def latexTables(cfg, allInfo):
 
 		# tableOutput.write('\\begin{table}\\caption*{Avg Total Syst %s}\n' % yr)
 		tableOutput.write('\\begin{table}\\caption*{Max Syst %s}\n' % yr)
-		tableOutput.write('\\begin{tabular}{ r ' + '| c ' *len(regions.keys()) + '}\n')
+		tableOutput.write('\\resizebox{\\textwidth}{!}{\\begin{tabular}{ | r ' + '| c ' *len(regions.keys()) + '}\n')
 
 		tableOutput.write('\\hline\n')
 
 		line = ' '
-		for reg in regions:
-
+		for reg in regions_order:
 			line += ' & %s' % reg
 		line+='\\\\\n'
 
@@ -464,22 +474,28 @@ def latexTables(cfg, allInfo):
 
 			line = '$%s$' % samLatex[sam].replace('#','\\')
 
-			for reg in regions:
+			for reg in regions_order:
 
 				# Average of Up and Dn Total
 				# avg = (allInfo[sam][yr][reg]['Total'][1] + allInfo[sam][yr][reg]['Total'][2])/2.
 				# value = 100.*safeDiv(avg, allInfo[sam][yr][reg]['Total'][0])
 
+				# Max between Up and Dn Total
+				maxVar = max(allInfo[sam][yr][reg]['Total'][1], allInfo[sam][yr][reg]['Total'][2])
+				value = 100.*safeDiv(maxVar, allInfo[sam][yr][reg]['Total'][0])
+
 				# Max between all Vars Up and Dn
-				maxVar = 0
-				for var in allInfo[sam][yr]['varOrder']: 
+				# maxVar = 0
+				# for var in allInfo[sam][yr]['varOrder']: 
 
-					dnErrPer = 100.*safeDiv(allInfo[sam][yr][reg][var][1],allInfo[sam][yr][reg][var][0])
-					upErrPer = 100.*safeDiv(allInfo[sam][yr][reg][var][2],allInfo[sam][yr][reg][var][0])
+				# 	dnErrPer = 100.*safeDiv(allInfo[sam][yr][reg][var][1],allInfo[sam][yr][reg][var][0])
+				# 	upErrPer = 100.*safeDiv(allInfo[sam][yr][reg][var][2],allInfo[sam][yr][reg][var][0])
 
-					maxVar = max([maxVar, dnErrPer, upErrPer])
+				# 	maxVar = max([maxVar, dnErrPer, upErrPer])
+				# value = maxVar
 
-				value = maxVar
+				if value>100.: value = 100
+				if value == 0: value = 100
 
 				line += ' & %.2f\\%%' % (value)
 
@@ -488,7 +504,7 @@ def latexTables(cfg, allInfo):
 			tableOutput.write(line)
 
 		tableOutput.write('\\hline\n')
-		tableOutput.write('\\end{tabular}\n')
+		tableOutput.write('\\end{tabular}}\n')
 		tableOutput.write('\\end{table}\n')
 
 
@@ -516,13 +532,17 @@ def latexTables(cfg, allInfo):
 
 			tableOutput.write('\\hline\n')
 
-			regType = regions.keys()[0][0] # first letter in region name
-			for reg in regions:
+			# regType = regions.keys()[0][0] # first letter in region name
+			# for reg in regions:
+
+			regType = regions_order[0][0] # first letter in region name
+			for reg in regions_order:
 
 				if not reg.startswith(regType):
 					regType = reg[0]
 					tableOutput.write('\\hline\n')
 
+				# print(sam, yr, reg, allInfo[sam][yr][reg])
 
 				line = '%s & %.2f & ' % (reg, allInfo[sam][yr][reg]['Nominal'][0])
 				for var in allInfo[sam][yr]['varOrder']: 
@@ -545,7 +565,7 @@ def latexTables(cfg, allInfo):
 	tableOutput.write('\\end{document}\n')
 	tableOutput.close()
 
-	print 'Done!\n'
+	print('Done!\n')
 	
 
 def HFinput(cfg, allInfo):
@@ -553,14 +573,14 @@ def HFinput(cfg, allInfo):
 	# input for hist fitter
 
 	if 'fullR2' not in cfg['plot_years']:
-		print 'HF input is only available for fullR2, please include it in the config file'
+		print('HF input is only available for fullR2, please include it in the config file')
 		return
 
 	regions = imp.load_source('', cfg['inputDir']+'regions.py').regions
 
 	outputFile = '%s/%s/config_input.py' % (cfg['eosPathPlot'], cfg['tag'])
 
-	print 'Input for HF: %s' % outputFile
+	print('Input for HF: %s' % outputFile)
 
 	HFconfig = open(outputFile, 'w')
 
@@ -590,6 +610,6 @@ def HFinput(cfg, allInfo):
 
 	HFconfig.close()
 
-	print 'Done!'
+	print('Done!')
 
 

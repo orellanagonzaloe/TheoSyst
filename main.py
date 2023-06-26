@@ -11,13 +11,13 @@ def check_args(args):
 	# under construction
 
 	# if not args.systematics and args.inputfile is not None and args.did is None:
-	# 	print 'Please especify DSID of file (--did XXXXXX)'
+	# 	print('Please especify DSID of file (--did XXXXXX)')
 	# 	return -1
 	# if args.sample is not None and args.inputfile is not None:
-	# 	print 'Input can only be a sample name or a file'
+	# 	print('Input can only be a sample name or a file')
 	# 	return -1
 	# if args.systematics and (args.inputfile is None or args.outputdir is None):
-	# 	print 'Please set an inputfile and outputdir'
+	# 	print('Please set an inputfile and outputdir')
 	# 	return -1
 
 	return

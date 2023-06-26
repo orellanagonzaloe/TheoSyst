@@ -23,7 +23,7 @@ def main():
 
 	total=len(l_pass_g140)*len(l_ph_n)*len(l_l_n)*len(l_ph_pt)*len(l_jet_n)*len(l_bjet_n)*len(l_met_et)*len(l_dphi_gammet)*len(l_dphi_jetmet)*len(l_meff)*len(l_ht)*len(l_mt_gam)*len(l_rt4)*len(l_bbmass)
 
-	print total
+	print(total)
 
 	count=0
 
@@ -75,7 +75,7 @@ def main():
 																region+=(' && bbmass_w%s')%(bbmass)
 															region+='\','
 
-															# print region
+															# print(region)
 															f.write(region+'\n')
 
 

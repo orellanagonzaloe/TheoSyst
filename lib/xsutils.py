@@ -3,6 +3,7 @@
 import os
 
 _xs_db = dict()
+_xs_unc_db = dict()
 
 # Disgusting fix for Higgs samples not correctly uploaded to PMG file:
 # https://twiki.cern.ch/twiki/bin/view/LHCPhysics/LHCHWG?redirectedfrom=LHCPhysics.LHCHXSWG#Higgs_cross_sections_and_decay_b

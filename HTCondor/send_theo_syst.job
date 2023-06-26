@@ -13,24 +13,38 @@ should_transfer_files = YES
 when_to_transfer_output = ON_EXIT
 transfer_output_files = ""
 
-+MaxRuntime = 300000
-# +MaxRuntime = 10000
-# +JobFlavour = "testmatch"
+# espresso     = 20 minutes
+# microcentury = 1 hour
+# longlunch    = 2 hours
+# workday      = 8 hours
+# tomorrow     = 1 day
+# testmatch    = 3 days
+# nextweek     = 1 week
 
-outputDir = /eos/user/g/goorella/plots/theo_syst/theo_syst_v210_EWK_$(sample)
+# +MaxRuntime = 300000
++JobFlavour = "nextweek"
 
-arguments = $(sample) $(outputDir)
+outputDir = /eos/user/g/goorella/theo_syst/theo_syst_v210_EWK_v3_samples/$(sample)
 
-queue sample from (
-	# ttgamma
-	# tth
-	wgamma
-	# zeegamma
-	# zmumugamma
-	# znunugamma
-	# ztautaugamma
-	# zgammagamma
-	# wgammagamma
-	# photonjet
-	# diphoton
+arguments = $(sample) $(outputDir) $(year)
+
+queue sample year from (
+	ttgamma 20152016
+	ttgamma 2017
+	ttgamma 2018
+	wgamma 20152016
+	wgamma 2017
+	wgamma 2018
+	zeegamma 20152016
+	zeegamma 2017
+	zeegamma 2018
+	zmumugamma 20152016
+	zmumugamma 2017
+	zmumugamma 2018
+	znunugamma 20152016
+	znunugamma 2017
+	znunugamma 2018
+	ztautaugamma 20152016
+	ztautaugamma 2017
+	ztautaugamma 2018
 )

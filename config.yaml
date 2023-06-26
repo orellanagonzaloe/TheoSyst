@@ -15,13 +15,17 @@ doSystToolPlots : False
 
 ### for plot only ###
 
-plot_samples : ['photonjet', 'wgamma', 'ttgamma', 'znunugamma', 'zllgamma', 'vgammagamma', 'diphoton']
-plot_years : ['fullR2', '20152016', '2017', '2018']
-# plot_samples : ['photonjet', 'ttgamma']
-# plot_years : ['2018']
+# plot_samples : ['photonjet', 'wgamma', 'ttgamma', 'znunugamma', 'zeegamma', 'zmumugamma', 'ztautaugamma', 'zgammagamma', 'wgammagamma', 'diphoton']
+# plot_years : ['fullR2', '20152016', '2017', '2018']
+plot_samples : ['wgamma', 'ttgamma', 'znunugamma', 'zllgamma']
+plot_years : ['fullR2']
 eosPathPlot : '/eos/user/g/goorella/plots/theo_syst/'
 
 # order the appearence of the variations
 # varOrder = ['Nominal', 'PDF_ME', 'alphaS', 'scale_ME_NP_muR', 'scale_ME_NP_muF', 'scale_ME_NP_muRmuF', 'altPDF', 'Total'] # Nominal first. Total must go last and altPDFs (if included) anteultimate
 
-varOrder : ['Nominal', 'scale_ME_NP_muR', 'scale_ME_NP_muF', 'scale_ME_NP_muRmuF', 'NP_PDFalpha', 'NP_PDFalpha2'] # Nominal first. Total must go last and altPDFs (if included) anteultimate. Include PDFalpha2 for ttgamma.
+varOrder : ['Nominal', 'scale_ME_NP_muR', 'scale_ME_NP_muF', 'scale_ME_NP_muRmuF', 'PDF_ME', 'alphaS', 'altPDF', 'Total'] # Nominal first. Total must go last and altPDFs (if included) anteultimate. Include PDFalpha2 for ttgamma.
+
+# varOrder : ['Sherpa_ME_PDF13000', 'Sherpa_ME_PDF25300', 'Sherpa_ME_PDF261000_alphaS_NNPDF_NNLO', 'Sherpa_ME_PDF261000_scale', 'Sherpa_ME_PDF261000_var', 'Sherpa_Other', 'Sherpa_PDF261000_Nominal']
+
+

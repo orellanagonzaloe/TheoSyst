@@ -89,7 +89,7 @@ def initLoop(cfg, regions):
 				h_syst[w]['%s_%s' % (r, var)].Sumw2()
 
 
-	print weight_names
+	print(weight_names)
 
 	loop(cfg, regions, h_syst, weight_names)
 
@@ -112,7 +112,7 @@ def loop(cfg, regions, h_syst, weight_names):
 		if cfg['inputFile'] is not None:
 			all_files = [s]
 		
-		print ('File (%i/%i): %s') % (n+1, len(loop_samples), s)
+		print('File (%i/%i): %s') % (n+1, len(loop_samples), s)
 
 
 		weight_mc = {}
@@ -158,7 +158,7 @@ def loop(cfg, regions, h_syst, weight_names):
 			w_name_sumw = h_lhe3_sumw.GetXaxis().GetBinLabel(i)
 
 			if w_name_sumw != w_name.replace(' ','').replace('.',''):
-				print '\033[1;93mWARNING\033[0m: Weight name from CBK (\'%s\') differs from PMGWeightTool name (\'%s\')' % (w_name_sumw, w_name)
+				print('\033[1;93mWARNING\033[0m: Weight name from CBK (\'%s\') differs from PMGWeightTool name (\'%s\')' % (w_name_sumw, w_name))
 
 			# sumw = h_lhe3_sumw.GetBinContent(i)
 			sumw = h_events.GetBinContent(3) # now for each variation the normalization is with the nominal sumw (not with the corresponding sumw of each variation) (2020-02-10)
@@ -174,7 +174,7 @@ def loop(cfg, regions, h_syst, weight_names):
 
 		for i,w in enumerate(weight_mc):
 
-			# print ('Weight (%i/%i): %s') % (i+1, len(weight_mc), w)
+			# print('Weight (%i/%i): %s') % (i+1, len(weight_mc), w)
 
 			lumi_w = ( lumi_dict[cfg['year']] * xs ) / weight_mc[w][1]
 
@@ -223,7 +223,7 @@ def loop(cfg, regions, h_syst, weight_names):
 			for r in regions:
 
 				if h_syst[w][r+'_nevents'].GetEntries() == 0:
-					print ('Histogram %s has 0 entries...') % (h_syst[w][r+'_nevents'].GetName())
+					print('Histogram %s has 0 entries...') % (h_syst[w][r+'_nevents'].GetName())
 
 	output_file(cfg, regions, weight_names, h_syst)
 
@@ -265,7 +265,7 @@ def output_file(cfg, regions, weight_names, h_syst):
 
 	output.Close()
 
-	print ('\n%s file created') % (outputfile)
+	print('\n%s file created') % (outputfile)
 
 	cfg['regions'] = regions
 	cfg['weights'] = weight_names
@@ -273,12 +273,11 @@ def output_file(cfg, regions, weight_names, h_syst):
 
 	with open(outputfile.replace('.root', '_config.yaml'), 'w+') as f:
 		data = yaml.dump(cfg, f)
-	print ('%s file created') % (outputfile.replace('.root', '_config.yaml'))
+	print('%s file created') % (outputfile.replace('.root', '_config.yaml'))
 
 
 def safeWeightName(weight):
 
-	weight = weight.replace('+','')
 	weight = weight.replace(' nominal ','')
 	weight = weight.replace(' set = ','_')
 	weight = weight.replace(' = ','_')
@@ -292,6 +291,7 @@ def safeWeightName(weight):
 	weight = weight.replace('/','over')
 	
 	# they changed again safe naming convention :/
+	# weight = weight.replace('+','')
 
 	# if weight.startswith(' '):
 	# 	weight = weight[1:]
